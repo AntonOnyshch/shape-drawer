@@ -20,14 +20,12 @@ export class ShapeDrawer
         let error = 0;
         let y = coors[1];
         let x = coors[0];
-        let pixel = 0;
         let errortmp = 0;
 
         //If line is steep we treat it like from up to down(or down to up)
         if(steep) {
             for (; x < coors[2]; x++) {
-                pixel = x * width + y;
-                array[pixel] = color;
+                array[x * width + y] = color;
 
                 error += derror;
                 errortmp = (error - dx) >> 31;
@@ -37,8 +35,7 @@ export class ShapeDrawer
         }
         else {//from left to right(or right to left)
             for (; x < coors[2]; x++) {
-                pixel = y * width + x;
-                array[pixel] = color;
+                array[y * width + x] = color;
 
                 error += derror;
                 errortmp = (error - dx) >> 31;
@@ -52,11 +49,9 @@ export class ShapeDrawer
     {
         const color = 255 << 24;
         const array = new Uint32Array(data);
-        let pixel = 0;
         for (let i = 0; i < height; i++) {
             for (let j = 0; j < width; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
+                array[i * width + j] = color;
             }
         }
     }
@@ -65,17 +60,12 @@ export class ShapeDrawer
         color: 0, width: 0, data: ArrayBufferLike)
     {
         const array = new Uint32Array(data);
-        let pixel = 0;
-
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
-
         let j = x0;
 
         for (let i = y0; i < y1; i++) {
-            j = x0;
-            for (; j < x1; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
+            for (j = x0; j < x1; j++) {
+                array[i * width + j] = color;
             }
         }
     }
@@ -84,7 +74,6 @@ export class ShapeDrawer
         color: 0, width: 0, data: ArrayBufferLike)
     {
         const array = new Uint32Array(data);
-        let pixel = 0;
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
  
         let j = coors[0];
@@ -94,11 +83,8 @@ export class ShapeDrawer
         for (let i = coors[1]; i < middley1; i++) {
             j = coors[0];
             for (; j < coors[2]; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
-
-                pixel = y * width + j;
-                array[pixel] = color;
+                array[i * width + j] = color;
+                array[y * width + j] = color;
             }
             y--;
         }
@@ -108,23 +94,19 @@ export class ShapeDrawer
         color: 0, width: 0, data: ArrayBufferLike)
     {
         const array = new Uint32Array(data);
-        let pixel = 0;
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
         const blankColor = 255 << 24;
 
         for (let i = coors[1]; i < coors[3] + 1; i++) {
-            pixel = i * width + coors[0];
-            array[pixel] = blankColor;
-
-            pixel = i * width + coors[3];
-            array[pixel] = color;
+            array[i * width + coors[0]] = blankColor;
+            array[i * width + coors[3]] = color;
         }
     }
     public static drawTriangle(
         a:Array<number>, b:Array<number>, c:Array<number>, 
         color: number, width: number, data: ArrayBufferLike)
     {
-        let tValueSwap:number, x1:number, x2:number, sy:number, tmp:number, pixel:number;
+        let tValueSwap:number, x1:number, x2:number, sy:number, tmp:number;
         const array = new Uint32Array(data);
         if(a[1] > b[1]) {
             tValueSwap = a[0];
@@ -176,8 +158,7 @@ export class ShapeDrawer
             
             for (i = x1; i < x2 + 1; i++)
             {
-                pixel = sy * width + i;
-                array[pixel] = color;
+                array[sy * width + i] = color;
             }
         }
     }
