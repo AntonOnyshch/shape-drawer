@@ -21,5 +21,6 @@
       "strictNullChecks": false,
       "jsx": "react",
       "allowSyntheticDefaultImports": true
-    }
+    },
+    "files": ["./src/shape-drawer.ts"],
   }

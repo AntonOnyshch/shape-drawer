@@ -1,4 +1,4 @@
-import {ShapeDrawer} from './dist/shape-drawer.js';
+import {ShapeDrawer} from './dist/shape-drawer.min.js';
 
 window.shapeDrawer = {
     canvas: undefined,
