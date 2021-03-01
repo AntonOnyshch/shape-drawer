@@ -1,6 +1,7 @@
 export class ShapeDrawer
 {
-    public static drawLine(x0:number, y0:number, x1:number, y1:number,
+    public static drawLine(
+        x0:number, y0:number, x1:number, y1:number,
         color: 0, width: 0, data: ArrayBufferLike)
     {
         //Steep is true if the width of line is less than height
@@ -8,7 +9,6 @@ export class ShapeDrawer
 
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
 
-        // if the line is steep, we transpose the coordinates
         if (Math.abs(x0 - x1) < Math.abs(y0 - y1)) {
             steep = true;
         }
@@ -47,8 +47,8 @@ export class ShapeDrawer
             }
         }
     }
-
-    public static clearBuffer(width: 0, height: 0, data: ArrayBufferLike)
+    public static clearBuffer(
+        width: 0, height: 0, data: ArrayBufferLike)
     {
         const color = 255 << 24;
         const array = new Uint32Array(data);
@@ -103,7 +103,6 @@ export class ShapeDrawer
             y--;
         }
     }
-
     public static shiftRectRight(
         x0:0, y0:0, x1:0, y1:0,
         color: 0, width: 0, data: ArrayBufferLike)
@@ -121,8 +120,9 @@ export class ShapeDrawer
             array[pixel] = color;
         }
     }
-
-    public static drawTriangle(a:Array<number>, b:Array<number>, c:Array<number>, color: number, width: number, data: ArrayBufferLike)
+    public static drawTriangle(
+        a:Array<number>, b:Array<number>, c:Array<number>, 
+        color: number, width: number, data: ArrayBufferLike)
     {
         let tValueSwap:number, x1:number, x2:number, sy:number, tmp:number, pixel:number;
         const array = new Uint32Array(data);
@@ -181,8 +181,9 @@ export class ShapeDrawer
             }
         }
     }
-
-    public static drawCircle(x1: number, y1: number, r: number, strokeThickness: number, stroke: number, width: number, data: ArrayBufferLike) {
+    public static drawCircle(
+        x1: number, y1: number, r: number, strokeThickness: number, 
+        stroke: number, width: number, data: ArrayBufferLike) {
         let newR = 0;
         for (let i = 0; i < strokeThickness; i++)
         {
@@ -218,8 +219,8 @@ export class ShapeDrawer
             }
         }
     }
-
-    private static transformCoordinates(x0: number, y0: number, x1: number, y1: number) : Array<number>
+    private static transformCoordinates(
+        x0: number, y0: number, x1: number, y1: number) : Array<number>
     {
         // if the line is steep, we transpose the coordinates
         if (Math.abs(x0 - x1) < Math.abs(y0 - y1)) {
