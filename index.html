@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shape Drawer</title>
+    <style>
+        
+      /* Style the tab */
+        .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+        background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+        background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        /* border: 1px solid #ccc; */
+        border-top: none;
+        }
+    </style>
+    <script type="module" src="./index.js"></script>
+  </head>
+  <body onload="window.shapeDrawer.init(canvas)">
+      
+        <section id="content">
+            <!-- Tab links -->
+            <div class="tab">
+                <button class="tablinks" onclick="window.shapeDrawer.openTab('Lines')">Lines</button>
+                <button class="tablinks" onclick="window.shapeDrawer.openTab('Circles')">Circles</button>
+                <button class="tablinks" onclick="window.shapeDrawer.openTab('Rectangles')">Rectangles</button>
+            </div>
+            
+            <!-- Tab content -->
+            <div id="Lines" class="tabcontent" on>
+                <h3>Lines</h3>
+                <p>Drawing lines</p>
+            </div>
+            
+            <div id="Circles" class="tabcontent">
+                <h3>Circles</h3>
+                <p>Drawing circles.</p>
+            </div>
+            
+            <div id="Rectangles" class="tabcontent">
+                <h3>Rectangles</h3>
+                <p>Drawing rectangles.</p>
+            </div>
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </section>
+    </body>
+</html>
+
