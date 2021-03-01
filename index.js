@@ -1,4 +1,4 @@
-import {ShapeDrawer} from './dist/shape-drawer.min.js';
+import {ShapeDrawer} from './dist/shape-drawer.js';
 
 window.shapeDrawer = {
     canvas: undefined,
@@ -45,33 +45,14 @@ window.shapeDrawer = {
         switch (this.activeTab) {
             case 'Lines':
             {
-                const params = {
-                    coors: {
-                        x0: centerX, 
-                        y0: centerY, 
-                        x1: centerX + 100, 
-                        y1: centerX + 100
-                    },
-                    color: this.colors.white,
-                    width: this.canvasImageData.width,
-                    data: this.canvasImageData.data.buffer
-                }
-
-                ShapeDrawer.drawLine(params);
+                ShapeDrawer.drawLine(centerX, centerY, centerX + 100, centerY + 100, whiteColor, width, buffer);
                 this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
-                params.color = blankColor;
-                ShapeDrawer.drawLine(params);
+                ShapeDrawer.drawLine(centerX, centerY, centerX + 100, centerY + 100, blankColor, width, buffer);
 
                 this.canvas.onmousemove = (e) => {
-                    params.color = whiteColor;
-                    params.coors.x0 = centerX;
-                    params.coors.y0 = centerY;
-                    params.coors.x1 = e.offsetX;
-                    params.coors.y1 = e.offsetY;
-                    ShapeDrawer.drawLine(params);
+                    ShapeDrawer.drawLine(centerX, centerY, e.offsetX, e.offsetY, whiteColor, width, buffer);
                     this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
-                    params.color = blankColor;
-                    ShapeDrawer.drawLine(params);
+                    ShapeDrawer.drawLine(centerX, centerY, e.offsetX, e.offsetY, blankColor, width, buffer);
                 }
             }
             break;
