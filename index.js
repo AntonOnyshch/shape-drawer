@@ -36,35 +36,52 @@ window.shapeDrawer = {
         this.initExample();
     },
     initExample: function initExample() {
+        const width = this.canvasImageData.width;
+        const buffer =  this.canvasImageData.data.buffer;
+        const whiteColor = this.colors.white;
+        const blankColor = this.colors.blank;
+        const centerX = Math.round(this.canvasImageData.width * 0.5);
+        const centerY = Math.round(this.canvasImageData.height * 0.5);
         switch (this.activeTab) {
             case 'Lines':
             {
-                const centerX = Math.round(this.canvasImageData.width * 0.5);
-                const centerY = Math.round(this.canvasImageData.height * 0.5);
-                
                 const params = {
                     coors: {
                         x0: centerX, 
                         y0: centerY, 
-                        x1: 0, 
-                        y1: 0
+                        x1: centerX + 100, 
+                        y1: centerX + 100
                     },
                     color: this.colors.white,
                     width: this.canvasImageData.width,
                     data: this.canvasImageData.data.buffer
                 }
 
+                ShapeDrawer.drawLine(params);
+                this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
+                params.color = blankColor;
+                ShapeDrawer.drawLine(params);
+
                 this.canvas.onmousemove = (e) => {
-                    params.color = this.colors.white;
+                    params.color = whiteColor;
                     params.coors.x0 = centerX;
                     params.coors.y0 = centerY;
                     params.coors.x1 = e.offsetX;
                     params.coors.y1 = e.offsetY;
                     ShapeDrawer.drawLine(params);
                     this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
-                    params.color = this.colors.blank;
+                    params.color = blankColor;
                     ShapeDrawer.drawLine(params);
                 }
+            }
+            break;
+            case 'Circles':
+            {
+                this.canvas.onmousemove = undefined;
+    
+                ShapeDrawer.drawCircle(centerX, centerY, 100, 5, whiteColor, width, buffer);
+                this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
+                ShapeDrawer.drawCircle(centerX, centerY, 100, 5, blankColor, width, buffer);
             }
             break;
             case 'Rectangles':
@@ -73,32 +90,33 @@ window.shapeDrawer = {
                 
                 const halfWidth = Math.round(this.canvasImageData.width * 0.5);
                 const halfHeight = Math.round(this.canvasImageData.height * 0.5);
-                const params = {
-                    coors: {
-                        x0: halfWidth - 100, 
-                        y0: halfHeight - 100, 
-                        x1: halfWidth, 
-                        y1: halfHeight
-                    },
-                    color: this.colors.white,
-                    width: this.canvasImageData.width,
-                    data: this.canvasImageData.data.buffer
-                }
 
-                ShapeDrawer.drawRectangle(params);
+                ShapeDrawer.drawRect_double(halfWidth - 100, halfHeight - 100, halfWidth, halfHeight, 
+                    whiteColor, width, buffer);
+
                 this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
 
-                // this.canvas.onmousemove = (e) => {
-                //     params.color = this.colors.white;
-                //     params.coors.x0 = centerX;
-                //     params.coors.y0 = centerY;
-                //     params.coors.x1 = e.offsetX;
-                //     params.coors.y1 = e.offsetY;
-                //     ShapeDrawer.drawRectangle(params);
-                //     this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
-                //     params.color = this.colors.blank;
-                //     ShapeDrawer.drawRectangle(params);
-                // }
+                ShapeDrawer.drawRect_double(halfWidth - 100, halfHeight - 100, halfWidth, halfHeight, 
+                    blankColor, width, buffer);
+
+                this.canvas.onmousemove = (e) => {
+                    ShapeDrawer.drawRect_double(e.offsetX - 50, e.offsetY - 50, e.offsetX + 50, e.offsetY + 50,
+                        whiteColor, width, buffer);
+                    this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
+                    ShapeDrawer.drawRect_double(e.offsetX - 50, e.offsetY - 50, e.offsetX + 50, e.offsetY + 50,
+                        blankColor, width, buffer);
+                }
+            }
+            break;
+            case 'Triangles':
+            {
+                this.canvas.onmousemove = undefined;
+    
+                ShapeDrawer.drawTriangle([centerX, centerY - 100], [centerX - 100, centerY + 50], [centerX + 100, centerY + 50], 
+                    whiteColor, width, buffer);
+                this.canvasCTX.putImageData(this.canvasImageData, 0, 0);
+                ShapeDrawer.drawTriangle([centerX, centerY - 100], [centerX - 100, centerY + 50], [centerX + 100, centerY + 50], 
+                    blankColor, width, buffer);
             }
             break;
             default:
