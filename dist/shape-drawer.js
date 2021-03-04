@@ -12,12 +12,10 @@ export class ShapeDrawer {
         let error = 0;
         let y = coors[1];
         let x = coors[0];
-        let pixel = 0;
         let errortmp = 0;
         if (steep) {
             for (; x < coors[2]; x++) {
-                pixel = x * width + y;
-                array[pixel] = color;
+                array[x * width + y] = color;
                 error += derror;
                 errortmp = (error - dx) >> 31;
                 y += (errorLut >> 16) * ++errortmp;
@@ -26,8 +24,7 @@ export class ShapeDrawer {
         }
         else {
             for (; x < coors[2]; x++) {
-                pixel = y * width + x;
-                array[pixel] = color;
+                array[y * width + x] = color;
                 error += derror;
                 errortmp = (error - dx) >> 31;
                 y += (errorLut >> 16) * ++errortmp;
@@ -38,30 +35,24 @@ export class ShapeDrawer {
     static clearBuffer(width, height, data) {
         const color = 255 << 24;
         const array = new Uint32Array(data);
-        let pixel = 0;
         for (let i = 0; i < height; i++) {
             for (let j = 0; j < width; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
+                array[i * width + j] = color;
             }
         }
     }
     static drawRect(x0, y0, x1, y1, color, width, data) {
         const array = new Uint32Array(data);
-        let pixel = 0;
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
         let j = x0;
         for (let i = y0; i < y1; i++) {
-            j = x0;
-            for (; j < x1; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
+            for (j = x0; j < x1; j++) {
+                array[i * width + j] = color;
             }
         }
     }
     static drawRect_double(x0, y0, x1, y1, color, width, data) {
         const array = new Uint32Array(data);
-        let pixel = 0;
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
         let j = coors[0];
         let y = coors[3];
@@ -69,28 +60,23 @@ export class ShapeDrawer {
         for (let i = coors[1]; i < middley1; i++) {
             j = coors[0];
             for (; j < coors[2]; j++) {
-                pixel = i * width + j;
-                array[pixel] = color;
-                pixel = y * width + j;
-                array[pixel] = color;
+                array[i * width + j] = color;
+                array[y * width + j] = color;
             }
             y--;
         }
     }
     static shiftRectRight(x0, y0, x1, y1, color, width, data) {
         const array = new Uint32Array(data);
-        let pixel = 0;
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
         const blankColor = 255 << 24;
         for (let i = coors[1]; i < coors[3] + 1; i++) {
-            pixel = i * width + coors[0];
-            array[pixel] = blankColor;
-            pixel = i * width + coors[3];
-            array[pixel] = color;
+            array[i * width + coors[0]] = blankColor;
+            array[i * width + coors[3]] = color;
         }
     }
     static drawTriangle(a, b, c, color, width, data) {
-        let tValueSwap, x1, x2, sy, tmp, pixel;
+        let tValueSwap, x1, x2, sy, tmp;
         const array = new Uint32Array(data);
         if (a[1] > b[1]) {
             tValueSwap = a[0];
@@ -141,8 +127,7 @@ export class ShapeDrawer {
             x1 = Math.round(x1);
             x2 = Math.round(x2);
             for (i = x1; i < x2 + 1; i++) {
-                pixel = sy * width + i;
-                array[pixel] = color;
+                array[sy * width + i] = color;
             }
         }
     }
