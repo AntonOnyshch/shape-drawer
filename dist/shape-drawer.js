@@ -44,9 +44,9 @@ export class ShapeDrawer {
     static drawRect(x0, y0, x1, y1, color, width, data) {
         const array = new Uint32Array(data);
         const coors = ShapeDrawer.transformCoordinates(x0, y0, x1, y1);
-        let j = x0;
-        for (let i = y0; i < y1; i++) {
-            for (j = x0; j < x1; j++) {
+        let j = 0;
+        for (let i = coors[1]; i < coors[3]; i++) {
+            for (j = coors[0]; j < coors[2]; j++) {
                 array[i * width + j] = color;
             }
         }
